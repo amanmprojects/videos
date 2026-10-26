@@ -1,0 +1,248 @@
+1
+00:00:00,700 --> 00:00:05,366
+Git worktrees let you check out several branches of one repository at the same time,
+
+2
+00:00:05,366 --> 00:00:07,110
+each in its own directory.
+
+3
+00:00:10,033 --> 00:00:13,399
+Say you're halfway through a feature, with uncommitted changes,
+
+4
+00:00:13,399 --> 00:00:16,478
+when a bug report comes in that needs a fix on main.
+
+5
+00:00:16,628 --> 00:00:19,108
+You could stash your work and switch branches,
+
+6
+00:00:19,108 --> 00:00:22,559
+but that changes files underneath your editor and running tools,
+
+7
+00:00:22,559 --> 00:00:24,962
+and you have to undo it all afterwards.
+
+8
+00:00:25,112 --> 00:00:27,353
+Or you could clone the repository again,
+
+9
+00:00:27,353 --> 00:00:33,029
+which downloads the whole history a second time and leaves you two repositories to keep in sync.
+
+10
+00:00:33,179 --> 00:00:35,176
+Worktrees are a third option.
+
+11
+00:00:37,100 --> 00:00:40,746
+To see how they work, split a repository into two parts.
+
+12
+00:00:40,896 --> 00:00:43,970
+The .git directory is the repository itself:
+
+13
+00:00:43,970 --> 00:00:48,322
+every commit, every branch and tag, plus config and hooks.
+
+14
+00:00:48,472 --> 00:00:50,915
+The working tree is the files you edit.
+
+15
+00:00:50,915 --> 00:00:54,110
+Each checkout also has two pieces of its own state:
+
+16
+00:00:54,110 --> 00:00:58,983
+HEAD, which records what's checked out, and the index, your staging area.
+
+17
+00:00:59,133 --> 00:01:03,500
+A normal clone gives you exactly one working tree for each repository.
+
+18
+00:01:05,400 --> 00:01:07,874
+git worktree add creates another one.
+
+19
+00:01:08,424 --> 00:01:10,997
+It creates a new directory called app-hotfix,
+
+20
+00:01:10,997 --> 00:01:14,956
+starts a branch named hotfix from main, and checks it out there.
+
+21
+00:01:15,106 --> 00:01:17,550
+Your feature directory isn't touched.
+
+22
+00:01:17,550 --> 00:01:23,427
+Both directories share one repository, so history exists once, but each has its own HEAD,
+
+23
+00:01:23,427 --> 00:01:24,850
+index, and files.
+
+24
+00:01:25,000 --> 00:01:27,247
+One catch: it's a fresh checkout.
+
+25
+00:01:27,247 --> 00:01:31,401
+Ignored files like node_modules and .env are not copied over,
+
+26
+00:01:31,401 --> 00:01:35,514
+so install your dependencies again in the new directory.
+
+27
+00:01:37,433 --> 00:01:41,492
+Under the hood, the new directory doesn't get a .git folder.
+
+28
+00:01:41,492 --> 00:01:44,160
+It gets a .git file, one line long.
+
+29
+00:01:44,310 --> 00:01:46,573
+That line points into the main repository,
+
+30
+00:01:46,573 --> 00:01:50,214
+where git keeps a small admin folder for each linked worktree.
+
+31
+00:01:50,364 --> 00:01:52,773
+It holds that worktree's HEAD and index,
+
+32
+00:01:52,773 --> 00:01:56,928
+plus a commondir file that points back to the shared repository.
+
+33
+00:01:57,078 --> 00:02:01,909
+Objects, branches, tags, and config all come from that shared store.
+
+34
+00:02:03,833 --> 00:02:06,090
+Because branches live in the shared store,
+
+35
+00:02:06,090 --> 00:02:10,312
+a commit made in one worktree is visible from all the others immediately.
+
+36
+00:02:10,462 --> 00:02:12,617
+There's no push or fetch involved.
+
+37
+00:02:12,617 --> 00:02:17,291
+Back in the original directory, git log hotfix already shows the fix.
+
+38
+00:02:17,441 --> 00:02:20,001
+And git branch marks hotfix with a plus sign,
+
+39
+00:02:20,001 --> 00:02:22,860
+meaning it's checked out in another worktree.
+
+40
+00:02:24,767 --> 00:02:29,502
+There's one rule: a branch can be checked out in only one worktree at a time.
+
+41
+00:02:29,652 --> 00:02:34,077
+Try to switch to hotfix from the original directory, and git refuses.
+
+42
+00:02:34,627 --> 00:02:37,006
+If two directories had hotfix checked out,
+
+43
+00:02:37,006 --> 00:02:40,064
+a commit in one would move the branch under the other,
+
+44
+00:02:40,064 --> 00:02:42,969
+and its files and index would no longer match.
+
+45
+00:02:43,919 --> 00:02:48,599
+To look at that code without claiming the branch, add a worktree with --detach.
+
+46
+00:02:48,599 --> 00:02:51,979
+You get the same commit, with no branch checked out.
+
+47
+00:02:54,100 --> 00:02:58,081
+git worktree list shows every worktree and what it has checked out.
+
+48
+00:02:58,231 --> 00:03:03,456
+When you're done, git worktree remove deletes the directory and its admin folder.
+
+49
+00:03:03,456 --> 00:03:08,143
+It refuses if there are uncommitted changes, unless you add --force.
+
+50
+00:03:08,293 --> 00:03:11,113
+If you delete a worktree folder by hand instead,
+
+51
+00:03:11,113 --> 00:03:14,644
+git worktree prune cleans up the leftover admin folder.
+
+52
+00:03:14,794 --> 00:03:16,513
+Neither one deletes the branch.
+
+53
+00:03:16,513 --> 00:03:20,417
+Your commits stay in the repository until you merge or delete it.
+
+54
+00:03:22,333 --> 00:03:25,884
+Reach for a worktree whenever you need two branches at once:
+
+55
+00:03:26,034 --> 00:03:28,247
+a hotfix next to unfinished work,
+
+56
+00:03:28,397 --> 00:03:31,520
+reviewing a pull request without losing your place,
+
+57
+00:03:31,670 --> 00:03:35,629
+running a slow test suite on one branch while you keep coding on another,
+
+58
+00:03:35,779 --> 00:03:40,312
+or giving each coding agent its own directory, so their edits never collide.
+
+59
+00:03:42,633 --> 00:03:46,075
+So: one repository, many working directories.
+
+60
+00:03:46,225 --> 00:03:49,464
+History, branches, config, and the stash are shared.
+
+61
+00:03:49,464 --> 00:03:53,689
+HEAD, the index, and the files on disk belong to each worktree.
+
+62
+00:03:53,839 --> 00:03:57,643
+And each branch can be checked out in only one place at a time.
+
