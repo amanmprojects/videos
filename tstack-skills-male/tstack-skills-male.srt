@@ -1,0 +1,276 @@
+1
+00:00:00,700 --> 00:00:04,889
+tstack is nine agent skills that Theo Browne uses every day, now public.
+
+2
+00:00:05,439 --> 00:00:07,175
+They work in Claude Code and Codex,
+
+3
+00:00:07,175 --> 00:00:10,899
+and each one teaches the agent one part of the pull request workflow.
+
+4
+00:00:11,049 --> 00:00:15,112
+You start one by saying its name, such as full send, or babysit.
+
+5
+00:00:16,933 --> 00:00:19,248
+Most of them chain into one pipeline.
+
+6
+00:00:19,398 --> 00:00:23,561
+Make the change. Review it with sol loop. File the PR.
+
+7
+00:00:23,561 --> 00:00:27,715
+Babysit it through CI and review bots. Then merge.
+
+8
+00:00:28,165 --> 00:00:32,268
+Full send runs that whole pipeline. First, the pieces.
+
+9
+00:00:34,100 --> 00:00:38,464
+Sol loop sends your diff to OpenAI's GPT Sol for review, in rounds.
+
+10
+00:00:38,614 --> 00:00:41,811
+Sol tags each finding: blocker, should, or nit.
+
+11
+00:00:41,961 --> 00:00:46,606
+The agent fixes the real bugs with the smallest change and pushes back on the rest with evidence,
+
+12
+00:00:46,606 --> 00:00:48,582
+tracking every finding in a ledger.
+
+13
+00:00:48,732 --> 00:00:51,641
+Three rounds by default, up to five for risky code.
+
+14
+00:00:51,641 --> 00:00:55,136
+It stops when Sol approves, or hands the dispute to you.
+
+15
+00:00:56,967 --> 00:01:00,143
+File PR opens a pull request that leads with the problem.
+
+16
+00:01:00,293 --> 00:01:03,426
+The title says why the change matters, not how it was built.
+
+17
+00:01:03,576 --> 00:01:06,018
+The description opens with the problem in plain words,
+
+18
+00:01:06,018 --> 00:01:08,218
+not a list of every function that changed.
+
+19
+00:01:08,668 --> 00:01:13,643
+It checks for secrets, then opens a real PR, not a draft, so review bots run.
+
+20
+00:01:15,467 --> 00:01:19,890
+The babysit PR skill watches a pull request through CI and review bots.
+
+21
+00:01:20,040 --> 00:01:25,410
+It uses one watcher per PR: T3 Code's watch tool, or the bundled pr-wait script.
+
+22
+00:01:25,410 --> 00:01:27,590
+Never a homemade sleep loop.
+
+23
+00:01:27,740 --> 00:01:31,496
+It checks each finding from the bots against the source, fixes the real ones,
+
+24
+00:01:31,496 --> 00:01:34,235
+and answers false positives with a written reason.
+
+25
+00:01:34,385 --> 00:01:37,984
+It rebases when the main branch moves, and only merges if you ask.
+
+26
+00:01:39,800 --> 00:01:44,528
+The leaving PR comments skill loads on its own whenever the agent posts on GitHub for you.
+
+27
+00:01:44,678 --> 00:01:48,252
+Each comment opens with a note naming the model and who it speaks for.
+
+28
+00:01:48,402 --> 00:01:50,176
+The reply leads with the conclusion,
+
+29
+00:01:50,176 --> 00:01:52,939
+cites the code or the check, and skips the filler.
+
+30
+00:01:54,767 --> 00:01:57,205
+When you are walking away, say full send.
+
+31
+00:01:57,355 --> 00:02:01,906
+The agent finishes the change, proves it, runs sol loop, files the PR, babysits it,
+
+32
+00:02:01,906 --> 00:02:02,974
+and merges it.
+
+33
+00:02:03,124 --> 00:02:04,780
+Proof is evidence it saw itself:
+
+34
+00:02:04,780 --> 00:02:09,013
+a reproduction that now passes, the repository's checks, or the running app.
+
+35
+00:02:09,163 --> 00:02:13,387
+It merges only when the gate passes: proof covers the diff, checks are green,
+
+36
+00:02:13,387 --> 00:02:17,252
+findings are handled, and the branch is current. No admin bypass.
+
+37
+00:02:17,402 --> 00:02:19,899
+If it gets stuck, it asks through a question tool,
+
+38
+00:02:19,899 --> 00:02:22,246
+so the thread shows it is waiting on you.
+
+39
+00:02:24,067 --> 00:02:27,698
+Next, full stop does the same work, but stops at the gate.
+
+40
+00:02:27,848 --> 00:02:29,796
+It turns off auto-merge, never merges,
+
+41
+00:02:29,796 --> 00:02:33,481
+and hands you a PR that is ready, waiting on approval, or blocked.
+
+42
+00:02:35,300 --> 00:02:40,471
+Council brings in three reviewers from three providers, such as Claude Opus, GPT Sol,
+
+43
+00:02:40,471 --> 00:02:41,683
+and Gemini Pro.
+
+44
+00:02:41,833 --> 00:02:43,993
+Each one scores the work out of ten.
+
+45
+00:02:44,143 --> 00:02:45,912
+It applies the fixes it agrees with,
+
+46
+00:02:45,912 --> 00:02:50,096
+and runs fresh rounds until all three are satisfied, without growing the scope.
+
+47
+00:02:50,246 --> 00:02:52,912
+The scores go in a table in the PR description.
+
+48
+00:02:54,733 --> 00:02:59,153
+Modernize brings an old PR up to date, and asks whether it should still exist.
+
+49
+00:02:59,303 --> 00:03:02,339
+It reads what changed on main since the branch split off.
+
+50
+00:03:02,489 --> 00:03:05,759
+Then it picks a verdict: modernize, rework, or close.
+
+51
+00:03:05,909 --> 00:03:07,537
+Only modernize gets a rebase,
+
+52
+00:03:07,537 --> 00:03:10,962
+checked with git range-diff and pushed with force-with-lease.
+
+53
+00:03:10,962 --> 00:03:13,340
+It never merges or closes on its own.
+
+54
+00:03:15,167 --> 00:03:19,243
+Takeover finishes someone else's PR, branch, or agent thread.
+
+55
+00:03:19,393 --> 00:03:21,822
+Takeover reads the handoff for context, not proof,
+
+56
+00:03:21,822 --> 00:03:24,017
+and checks the original failure itself.
+
+57
+00:03:24,167 --> 00:03:26,415
+It carries the original commits onto a new branch,
+
+58
+00:03:26,415 --> 00:03:28,783
+and the people who wrote them keep the credit.
+
+59
+00:03:28,933 --> 00:03:32,089
+Then it modernizes, files, and babysits the result.
+
+60
+00:03:33,900 --> 00:03:35,334
+Here is how they connect.
+
+61
+00:03:35,484 --> 00:03:41,115
+Full stop builds on full send, which uses sol loop, file PR, and babysit PR.
+
+62
+00:03:41,265 --> 00:03:45,114
+Takeover uses modernize, file PR, and babysit PR.
+
+63
+00:03:45,264 --> 00:03:49,286
+Every skill that comments on GitHub goes through leaving PR comments.
+
+64
+00:03:49,286 --> 00:03:51,393
+The council skill stands alone.
+
+65
+00:03:53,500 --> 00:03:54,084
+To install,
+
+66
+00:03:54,084 --> 00:03:59,000
+clone the tstack repo and copy its skills into your Claude Code or Codex skills folder.
+
+67
+00:03:59,150 --> 00:04:02,520
+You need an authenticated GitHub CLI and Python 3.
+
+68
+00:04:02,670 --> 00:04:03,827
+Then make them yours:
+
+69
+00:04:03,827 --> 00:04:08,424
+put personal settings in CLAUDE.md or AGENTS.md, so updates do not erase them.
+
