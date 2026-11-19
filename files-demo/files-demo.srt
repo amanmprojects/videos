@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:02,400
+Type a name to jump to it; Enter opens the folder
+
+2
+00:00:02,400 --> 00:00:07,000
+Alt+P: the preview pane follows the selection
+
+3
+00:00:07,000 --> 00:00:11,400
+Space: Quick Look. Up and Down step through the folder
+
+4
+00:00:11,400 --> 00:00:14,200
+Back returns to where the list was; a tar.gz opens like a folder
+
+5
+00:00:14,200 --> 00:00:18,300
+Code and Markdown preview straight from the archive
+
+6
+00:00:18,300 --> 00:00:23,300
+Ctrl+L: type a path, with completion
+
+7
+00:00:23,300 --> 00:00:25,100
+Ctrl+N: tabs
+
+8
+00:00:25,100 --> 00:00:29,000
+Ctrl+T: a terminal panel under the files
+
+9
+00:00:29,000 --> 00:00:36,400
+Copy a file, open the pinned server, paste: uploaded over scp
+
+10
+00:00:36,400 --> 00:00:38,200
+Two-finger swipe right: back, like a browser
+
+11
+00:00:38,200 --> 00:00:40,500
+Right-click: the context menu
+
+12
+00:00:40,500 --> 00:00:41,833
+Ctrl+Alt+B: the right sidebar
