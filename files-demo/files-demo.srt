@@ -24,11 +24,11 @@ Ctrl+L: type a path, with completion
 
 7
 00:00:23,300 --> 00:00:25,100
-Ctrl+N: tabs
+Ctrl+T: tabs
 
 8
 00:00:25,100 --> 00:00:29,000
-Ctrl+T: a terminal panel under the files
+Ctrl+J: a terminal panel under the files
 
 9
 00:00:29,000 --> 00:00:36,400
